@@ -73,7 +73,7 @@ public:
         // Table with peaks that can be attributed to Si
         ITableWorkspace_sptr tableSi = boost::dynamic_pointer_cast<ITableWorkspace>(indexedSi);
         TS_ASSERT(tableSi);
-        TS_ASSERT_EQUALS(tableSi->getName(), "Indexed_Si");
+        TS_ASSERT_EQUALS(tableSi->getName(), "Indexed_Si_measured_SI");
         TS_ASSERT_EQUALS(tableSi->rowCount(), 4);
 
         Workspace_sptr unindexed = group->getItem(1);
