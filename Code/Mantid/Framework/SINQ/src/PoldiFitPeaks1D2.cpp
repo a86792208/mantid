@@ -386,7 +386,7 @@ void PoldiFitPeaks1D2::exec() {
     ++i;
   }
 
-  setProperty("OutputWorkspace", m_peaks->asTableWorkspace());
+  setProperty("OutputWorkspace", fittedPeaksNew->asTableWorkspace());
   setProperty("FitPlotsWorkspace", m_fitplots);
 }
 
