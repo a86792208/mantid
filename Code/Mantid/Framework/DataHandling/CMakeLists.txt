@@ -92,6 +92,7 @@ set ( SRC_FILES
 	src/LoadSPE.cpp
 	src/LoadSampleDetailsFromRaw.cpp
 	src/LoadSassena.cpp
+	src/LoadSavuTomoConfig.cpp
 	src/LoadSpec.cpp
 	src/LoadSpice2D.cpp
 	src/LoadSpiceAscii.cpp
@@ -238,6 +239,7 @@ set ( INC_FILES
 	inc/MantidDataHandling/LoadSPE.h
 	inc/MantidDataHandling/LoadSampleDetailsFromRaw.h
 	inc/MantidDataHandling/LoadSassena.h
+	inc/MantidDataHandling/LoadSavuTomoConfig.h
 	inc/MantidDataHandling/LoadSpec.h
 	inc/MantidDataHandling/LoadSpice2D.h
 	inc/MantidDataHandling/LoadSpiceAscii.h
@@ -380,6 +382,7 @@ set ( TEST_FILES
 	LoadSPETest.h
 	LoadSassenaTest.h
 	LoadSaveAsciiTest.h
+        LoadSavuTomoConfigTest.h
 	LoadSpice2dTest.h
 	LoadSpiceAsciiTest.h
 	LoadTOFRawNexusTest.h
@@ -448,6 +451,11 @@ enable_precompiled_headers( inc/MantidDataHandling/PrecompiledHeader.h SRC_FILES
 add_library ( DataHandling ${SRC_FILES} ${INC_FILES})
 # Set the name of the generated library
 set_target_properties ( DataHandling PROPERTIES OUTPUT_NAME MantidDataHandling )
+
+if (OSX_VERSION VERSION_GREATER 10.8)
+  set_target_properties ( DataHandling PROPERTIES INSTALL_RPATH "@loader_path/../Contents/MacOS")
+endif () 
+
 # Add to the 'Framework' group in VS
 set_property ( TARGET DataHandling PROPERTY FOLDER "MantidFramework" )
 

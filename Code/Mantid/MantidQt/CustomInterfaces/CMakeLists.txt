@@ -63,6 +63,7 @@ set ( SRC_FILES
 	src/ReflLegacyTransferStrategy.cpp
 	src/ReflMainViewPresenter.cpp
 	src/ReflSearchModel.cpp
+  src/SampleTransmission.cpp
 	src/SANSAddFiles.cpp
 	src/SANSDiagnostics.cpp
 	src/SANSEventSlicing.cpp
@@ -151,6 +152,7 @@ set ( INC_FILES
 	inc/MantidQtCustomInterfaces/QReflTableModel.h
 	inc/MantidQtCustomInterfaces/QtReflMainView.h
 	inc/MantidQtCustomInterfaces/QtReflOptionsDialog.h
+  inc/MantidQtCustomInterfaces/SampleTransmission.h
 	inc/MantidQtCustomInterfaces/SANSAddFiles.h
 	inc/MantidQtCustomInterfaces/SANSDiagnostics.h
 	inc/MantidQtCustomInterfaces/SANSEventSlicing.h
@@ -223,6 +225,7 @@ set ( MOC_FILES inc/MantidQtCustomInterfaces/Background.h
                 inc/MantidQtCustomInterfaces/QReflTableModel.h
                 inc/MantidQtCustomInterfaces/QtReflMainView.h
                 inc/MantidQtCustomInterfaces/QtReflOptionsDialog.h
+                inc/MantidQtCustomInterfaces/SampleTransmission.h
                 inc/MantidQtCustomInterfaces/SANSAddFiles.h
                 inc/MantidQtCustomInterfaces/SANSPlotSpecial.h
                 inc/MantidQtCustomInterfaces/SANSRunWindow.h
@@ -273,6 +276,7 @@ set ( UI_FILES inc/MantidQtCustomInterfaces/AddWorkspace.ui
                inc/MantidQtCustomInterfaces/ReflMainWidget.ui
                inc/MantidQtCustomInterfaces/ReflOptionsDialog.ui
                inc/MantidQtCustomInterfaces/ReflWindow.ui
+               inc/MantidQtCustomInterfaces/SampleTransmission.ui
                inc/MantidQtCustomInterfaces/SANSPlotSpecial.ui
                inc/MantidQtCustomInterfaces/SANSRunWindow.ui  
                inc/MantidQtCustomInterfaces/SANSEventSlicing.ui
@@ -325,6 +329,10 @@ add_library ( CustomInterfaces ${ALL_SRC} ${INC_FILES} ${UI_HDRS} )
 # Set the name of the generated library
 set_target_properties ( CustomInterfaces PROPERTIES OUTPUT_NAME MantidQtCustomInterfaces
                                                     COMPILE_DEFINITIONS IN_MANTIDQT_CUSTOMINTERFACES )
+
+if (OSX_VERSION VERSION_GREATER 10.8)
+  set_target_properties ( CustomInterfaces PROPERTIES INSTALL_RPATH "@loader_path/../../../Contents/MacOS")
+endif () 
 
 find_Package(Threads)
 
