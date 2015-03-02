@@ -1,3 +1,4 @@
+#pylint: disable=no-init,invalid-name
 from mantid.api import *
 from mantid.kernel import *
 from mantid.simpleapi import *
@@ -6,7 +7,7 @@ import os
 from pyparsing import *
 
 
-class PoldiSample:
+class PoldiSample(Object):
     def __init__(self, initString):
 
         self._name, self._runList = self.parseInitString(initString)
@@ -62,7 +63,7 @@ class PoldiSample:
         return runList
 
 
-class PoldiProject:
+class PoldiProject(Object):
     def __init__(self, projectName, sampleListFile):
         self._name = projectName
         self._sampleList = self.parseSampleListFile(sampleListFile)
@@ -77,18 +78,21 @@ class PoldiProject:
         fh = open(sampleListFile, 'r')
 
         sampleList = []
-        for line in fh:
-            if len(line.strip()) > 0 and not line.strip()[0] == '#':
-                sampleList.append(PoldiSample(line))
+        for sampleFileLine in fh:
+            if len(sampleFileLine.strip()) > 0 and not sampleFileLine.strip()[0] == '#':
+                sampleList.append(PoldiSample(sampleFileLine))
 
         return sampleList
 
 
-class PoldiCompound:
+class PoldiCompound(Object):
     def __init__(self, name, content, tolerance, elements):
         self._name = name
         self._content = content
         self._tolerance = tolerance
+        self._spacegroup = ""
+        self._atomString = ""
+        self._latticeDict = ""
 
         self.assign(elements)
 
@@ -121,7 +125,7 @@ class PoldiCompound:
         return self._name
 
 
-class PoldiCrystalFile:
+class PoldiCrystalFile(Object):
     elementSymbol = Word(alphas, exact=2)
     integerNumber = Word(nums)
     decimalSeparator = Literal('.')
@@ -222,8 +226,8 @@ class PoldiBatchFitIndividualPeaks(PythonAlgorithm):
         self.declareProperty(FileProperty(name="CrystalStructures",
                                           defaultValue="",
                                           action=FileAction.Load))
-        self.declareProperty("Year", 2014, "The year in which the files ")
-        self.declareProperty("PeakNumber", 10, "Number of peaks to fit.")
+        self.declareProperty("Year", 2014, "The year in which the data have been recorded.")
+        self.declareProperty("PeakNumber", 10, "Maximum number of peaks to fit.")
 
     def PyExec(self):
         poldiProject = PoldiProject(self.getProperty("ProjectName").valueAsStr,
