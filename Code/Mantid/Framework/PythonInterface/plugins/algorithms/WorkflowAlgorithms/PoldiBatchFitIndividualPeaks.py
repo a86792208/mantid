@@ -7,7 +7,7 @@ import os
 from pyparsing import *
 
 
-class PoldiSample(Object):
+class PoldiSample(object):
     def __init__(self, initString):
 
         self._name, self._runList = self.parseInitString(initString)
@@ -63,7 +63,7 @@ class PoldiSample(Object):
         return runList
 
 
-class PoldiProject(Object):
+class PoldiProject(object):
     def __init__(self, projectName, sampleListFile):
         self._name = projectName
         self._sampleList = self.parseSampleListFile(sampleListFile)
@@ -85,7 +85,7 @@ class PoldiProject(Object):
         return sampleList
 
 
-class PoldiCompound(Object):
+class PoldiCompound(object):
     def __init__(self, name, content, tolerance, elements):
         self._name = name
         self._content = content
@@ -125,7 +125,7 @@ class PoldiCompound(Object):
         return self._name
 
 
-class PoldiCrystalFile(Object):
+class PoldiCrystalFile(object):
     elementSymbol = Word(alphas, exact=2)
     integerNumber = Word(nums)
     decimalSeparator = Literal('.')
